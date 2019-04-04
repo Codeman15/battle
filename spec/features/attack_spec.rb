@@ -1,33 +1,11 @@
-feature 'Attacking' do
-  scenario 'attack Player 2' do
-    sign_in_and_play
-    click_button 'attack'
-    expect(page).to have_content 'Dave attacked Mittens'
-  end
+describe Attack do
+  subject(:object) { described_class }
+  let(:player)     { double :player }
 
-  scenario 'reduce Player 2 HP by 10' do
-    sign_in_and_play
-    click_button 'attack'
-    click_button 'OK'
-    expect(page).not_to have_content 'Mittens: 60HP'
-    expect(page).to have_content 'Mittens: 50HP'
-  end
-
-  scenario 'attack Player 1' do
-    sign_in_and_play
-    click_button 'attack'
-    click_button 'OK'
-    click_button 'attack'
-    expect(page).to have_content 'Mittens attacked Dave'
-  end
-
-  scenario 'reduce Player 2 HP by 10' do
-    sign_in_and_play
-    click_button 'attack'
-    click_button 'OK'
-    click_button 'attack'
-    click_button 'OK'
-    expect(page).not_to have_content 'Dave: 60HP'
-    expect(page).to have_content 'Dave: 50HP'
+  describe '.run' do
+    it 'damages the player' do
+      expect(player).to receive(:receive_damage)
+      object.run(player)
+    end
   end
 end
